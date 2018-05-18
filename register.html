@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 등록</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+
+<!--사용자 입력 -->
+<form>
+    <div id="register_miss">
+    </div>
+
+    <input type="hidden" name="function" value="register">
+    <b>사용자 정보 등록</b><br>
+    <ol>
+        <li>사용자 ID: <input type="text" name="userid"></li>
+        <li>이름: <input type="text" name="username"></li>
+        <li>암호: <input type="text" name="userpassword"></li>
+        <li>구분: <select name="classification">
+            <option value="staff" >교직원</option>
+            <option value="student" selected>학생</option>
+        </select></li>
+        <li>성별: <select name="gender">
+            <option value="male">남성</option>
+            <option value="female" selected>여성</option>
+        </select></li>
+        <li>전화번호: <input type="text" name="phone"></li>
+        <li>이메일: <input type="text" name="email"></li>
+    </ol>
+    <input type="button" value="등록하기" onclick="ajax()">
+</form>
+
+<script>
+    function ajax() {
+        $.ajax({
+            url : "./DB_and_MVC.php",
+            type : "get",
+            data : $("form").serialize()
+        }).done(function (data) {
+            $("#register_miss").append(data);
+        });
+    }
+</script>
+
+</body>
+</html>
