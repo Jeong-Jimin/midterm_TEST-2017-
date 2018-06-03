@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>modify.html</title>
+</head>
+<body>
+<form action="DB_and_MVC.php" method="get" id="modify">
+
+    <b>수정할 ID를 입력하세요</b><br>
+    ID : <input type="text" name="check_user" id="check_user">
+    <input type="button" value="사용자 정보 조회" onclick="ajax1()">
+
+    <ol>
+        <li>사용자 ID:<input type="text" name="userid" id="userid" ></li>
+        <li>이름: <input type="text" name="username" id="username"></li>
+        <li>암호:  <input type="text" name="userpassword" id="userpassword"></li>
+        <li>구분:  <select name="classification" id="classification">
+            <option value="staff">교직원</option>
+            <option value="student" selected>학생</option>
+        </select></li>
+        <li>성별: <select name="gender" id="gender">
+            <option value="male">남성</option>
+            <option value="female" selected>여성</option>
+        </select></li>
+        <li>전화번호: <input type="text" name="phone" id="phone"></li>
+        <li>이메일: <input type="text" name="email" id="email" ></li>
+        <li><input type="submit" value="수정하기"></li>
+    </ol>
+    <input type="hidden" name="function" value="modify">
+</form>
+
+<script>
+    function ajax1() {
+        var url = './DB_and_MVC.php';
+        var param = '?function=modify&check_user='+ document.getElementById('check_user').value;
+        var xhr  = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4 && xhr.status == 200){
+
+                if(xhr.responseText == 'no'){
+                    alert('존재하지 않는 회원 입니다');
+                }
+                else{
+                    var arr = JSON.parse(xhr.responseText);
+                    document.getElementById('userid').value = arr['userid'];
+                    document.getElementById('username').value = arr['name'];
+                    document.getElementById('userpassword').value = arr['password'];
+                    document.getElementById('classification').value = arr['classification'];
+                    document.getElementById('gender').value = arr['gender'];
+                    document.getElementById('phone').value = arr['phone'];
+                    document.getElementById('email').value = arr['email'];
+                }
+            }
+        };
+        xhr.open('get',url+param,true);
+        xhr.send();
+    }
+
+</script>
+</body>
+</html>
